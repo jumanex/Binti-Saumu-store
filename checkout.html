@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Binti Saumu store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="brand">
+        <a href="index.html">Binti Saumu store</a>
+    </div>
+    <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="admin-login.html">Admin</a>
+    </nav>
+    <div class="header-actions">
+        <a href="cart.html" class="cart-link">Cart <span class="cart-count">0</span></a>
+    </div>
+</header>
+
+<main class="container">
+    <section class="section-intro">
+        <span class="eyebrow">Checkout</span>
+        <h2>Maliza ununuzi wako kwa haraka</h2>
+        <p>Thibitisha oda yako sasa na tutakusafirisha au utakataja kuchukua dukani.</p>
+    </section>
+
+    <section class="checkout-grid">
+        <div class="checkout-summary-card">
+            <h3>Muhtasari wa Oda</h3>
+            <div id="checkoutItems" class="checkout-items"></div>
+            <h3 id="checkoutTotal">Total: TZS 0</h3>
+        </div>
+
+        <div class="checkout-card">
+            <form onsubmit="placeOrder(event)">
+                <input type="text" id="name" placeholder="Jina lako" required>
+                <input type="text" id="phone" placeholder="Namba ya simu" required>
+                <select id="delivery" required>
+                    <option value="delivery">Delivery (Tutakuletea)</option>
+                    <option value="pickup">Pickup (Chukua dukani)</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Thibitisha Oda</button>
+            </form>
+            <p id="orderMessage" class="order-message"></p>
+            <div id="paymentSection" class="payment-section hidden">
+                <h3>Hatua ya Malipo</h3>
+                <p>Chagua njia ya malipo na ufuate maelekezo chini ili kumaliza oda kama Alibaba Business.</p>
+                <label for="paymentMethod">Njia ya malipo</label>
+                <select id="paymentMethod" onchange="onPaymentMethodChange()">
+                    <option value="mpesa">M-Pesa</option>
+                    <option value="bank">Bank Transfer</option>
+                    <option value="card">Card / Credit</option>
+                </select>
+                <button type="button" class="btn btn-secondary" onclick="copyPaymentDetails()">Nakili Maelezo ya Malipo</button>
+                <button type="button" class="btn btn-primary" onclick="goToPaymentConfirmation()">Uthibitisho wa Malipo</button>
+                <div id="paymentDetails" class="payment-details"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer container">
+    <div>
+        <strong>Binti Saumu store</strong>
+        <p>© 2026 | Biashara ya mtandaoni kwa bidhaa za afya na urembo.</p>
+    </div>
+    <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="cart.html">Cart</a>
+    </nav>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Products | Binti Saumu store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<script>
+    if (!sessionStorage.getItem("logged")) {
+        window.location.href = "admin-login.html";
+    }
+</script>
+
+<header>
+    <div class="brand">
+        <a href="index.html">Binti Saumu store</a>
+    </div>
+    <nav class="main-nav">
+        <a href="admin.html">Orders</a>
+        <a href="admin-products.html">Products</a>
+        <a href="products.html">Store</a>
+    </nav>
+    <div class="header-actions">
+        <button onclick="logout()" class="btn btn-secondary">Logout</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="section-intro">
+        <span class="eyebrow">Admin Products</span>
+        <h2>Ongeza au simamia bidhaa</h2>
+        <p>Ongeza bidhaa mpya kwa haraka na uone orodha ya bidhaa zote zilizohifadhiwa.</p>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='admin.html'">Rudi kwa Orders</button>
+    </section>
+
+    <section class="admin-panel">
+        <h3>Ongeza Bidhaa Mpya</h3>
+        <form onsubmit="addProduct(event)" class="product-form">
+            <input type="text" id="productName" placeholder="Jina la bidhaa" required>
+            <input type="number" id="productPrice" placeholder="Bei (TZS)" min="0" required>
+            <input type="text" id="productImage" placeholder="Path ya picha (images/product6.jpg)" required>
+            <textarea id="productDesc" placeholder="Maelezo mafupi ya bidhaa"></textarea>
+            <button type="submit" class="btn btn-primary">Ongeza bidhaa</button>
+        </form>
+    </section>
+
+    <section class="admin-panel">
+        <h3>Bidhaa zilizopo</h3>
+        <div id="productList"></div>
+    </section>
+</main>
+
+<footer class="site-footer container">
+    <div>
+        <strong>Binti Saumu store</strong>
+        <p>© 2026 | Admin panel kwa kusimamia bidhaa.</p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Binti Saumu store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<script>
+    if (!sessionStorage.getItem("logged")) {
+        window.location.href = "admin-login.html";
+    }
+</script>
+
+<header>
+    <div class="brand">
+        <a href="index.html">Binti Saumu store</a>
+    </div>
+    <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="cart.html">Cart</a>
+    </nav>
+    <div class="header-actions">
+        <button onclick="logout()" class="btn btn-secondary">Logout</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="section-intro">
+        <span class="eyebrow">Admin Panel</span>
+        <h2>Oda Zilizopokelewa</h2>
+        <p>Angalia orodha ya orders zinazohifadhiwa kwa wateja na usafirishaji.</p>
+    </section>
+
+    <section class="admin-grid">
+        <div class="admin-panel">
+            <div id="orders"></div>
+            <button onclick="clearOrders()" class="btn btn-secondary">Futa Orders</button>
+        </div>
+
+        <div class="admin-panel">
+            <h3>Admin Tools</h3>
+            <a href="admin-products.html" class="btn btn-primary">Simamisha Bidhaa</a>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer container">
+    <div>
+        <strong>Binti Saumu store</strong>
+        <p>© 2026 | Paneli ya admin.</p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
+
+
