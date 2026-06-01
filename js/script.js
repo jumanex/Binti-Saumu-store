@@ -12,7 +12,7 @@ const defaultProducts = [
 
 const paymentMethods = [
     { id: "mpesa", label: "M-Pesa (Mix by yas)", details: "Tuma pesa kwa namba 0675846893. Tumia jina lako kama marejeo." },
-    { id: "bank", label: "Bank Transfer", details: "Lipa kwa akaunti ya Binti Saumu Store, NIDA Bank 123456789, Aina: Current." },
+    { id: "bank", label: "Bank Transfer", details: "Lipa kwa akaunti ya Bint Salum Store, NIDA Bank 123456789, Aina: Current." },
     { id: "card", label: "Card / Credit", details: "Taarifa ya malipo ya kadi itatumwa kupitia simu au email baada ya kuthibitisha oda." }
 ];
 
@@ -88,17 +88,57 @@ function renderAdminProducts() {
     });
 }
 
-function addProduct(event) {
+function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.toString());
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+    });
+}
+
+function previewProductImage() {
+    const fileInput = document.getElementById("productImageFile");
+    const preview = document.getElementById("imagePreview");
+    if (!preview) return;
+
+    preview.innerHTML = "";
+    const file = fileInput?.files?.[0];
+    if (!file) return;
+
+    const img = document.createElement("img");
+    img.alt = "Preview ya picha ya bidhaa";
+    img.className = "preview-image";
+    const reader = new FileReader();
+    reader.onload = () => {
+        img.src = reader.result;
+        preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+}
+
+async function addProduct(event) {
     event.preventDefault();
 
     const name = document.getElementById("productName")?.value.trim();
     const price = Number(document.getElementById("productPrice")?.value || 0);
-    const image = document.getElementById("productImage")?.value.trim();
+    const imagePath = document.getElementById("productImage")?.value.trim();
+    const imageFile = document.getElementById("productImageFile")?.files?.[0];
     const desc = document.getElementById("productDesc")?.value.trim();
 
-    if (!name || !price || !image) {
-        alert("Tafadhali jaza jina, bei, na path ya picha.");
+    if (!name || !price || (!imagePath && !imageFile)) {
+        alert("Tafadhali jaza jina, bei, na picha ya bidhaa au path ya picha.");
         return;
+    }
+
+    let image = imagePath;
+    if (imageFile) {
+        try {
+            image = await readFileAsDataURL(imageFile);
+        } catch (error) {
+            alert("Imeshindikana kusoma picha. Tafadhali jaribu tena.");
+            return;
+        }
     }
 
     const products = getProducts();
@@ -110,7 +150,10 @@ function addProduct(event) {
     document.getElementById("productName").value = "";
     document.getElementById("productPrice").value = "";
     document.getElementById("productImage").value = "";
+    document.getElementById("productImageFile").value = "";
     document.getElementById("productDesc").value = "";
+    const preview = document.getElementById("imagePreview");
+    if (preview) preview.innerHTML = "";
 
     alert("Bidhaa imeongezwa kwa mafanikio.");
 }
@@ -310,6 +353,12 @@ function copyPaymentDetails() {
         const orderMessage = document.getElementById("orderMessage");
         if (orderMessage) orderMessage.innerText = "Maelezo ya malipo yamekopywa. Tuma kwa malipo au admin.";
     });
+}
+
+function toggleMobileMenu() {
+    const nav = document.querySelector(".main-nav");
+    if (!nav) return;
+    nav.classList.toggle("open");
 }
 
 function goToPaymentConfirmation() {

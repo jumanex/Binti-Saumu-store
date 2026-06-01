@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Products | Binti Saumu store</title>
+    <title>Admin Products | Bint Salum store</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -16,8 +16,9 @@
 
 <header>
     <div class="brand">
-        <a href="index.html">Binti Saumu store</a>
+        <a href="index.html">Bint Salum store</a>
     </div>
+    <button class="mobile-menu-button" type="button" onclick="toggleMobileMenu()" aria-label="Fungua menyu">Menu</button>
     <nav class="main-nav">
         <a href="admin.html">Orders</a>
         <a href="admin-products.html">Products</a>
@@ -41,7 +42,10 @@
         <form onsubmit="addProduct(event)" class="product-form">
             <input type="text" id="productName" placeholder="Jina la bidhaa" required>
             <input type="number" id="productPrice" placeholder="Bei (TZS)" min="0" required>
-            <input type="text" id="productImage" placeholder="Path ya picha (images/product6.jpg)" required>
+            <label for="productImageFile">Picha ya bidhaa (chagua kutoka kifaa)</label>
+            <input type="file" id="productImageFile" accept="image/*" onchange="previewProductImage()">
+            <input type="text" id="productImage" placeholder="Au tumia path ya picha (images/product6.jpg)">
+            <div id="imagePreview" class="image-preview"></div>
             <textarea id="productDesc" placeholder="Maelezo mafupi ya bidhaa"></textarea>
             <button type="submit" class="btn btn-primary">Ongeza bidhaa</button>
         </form>
@@ -55,7 +59,7 @@
 
 <footer class="site-footer container">
     <div>
-        <strong>Binti Saumu store</strong>
+        <strong>Bint Salum store</strong>
         <p>© 2026 | Admin panel kwa kusimamia bidhaa.</p>
     </div>
 </footer>
