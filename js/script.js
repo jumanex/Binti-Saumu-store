@@ -51,15 +51,34 @@ function renderProducts() {
     }
 
     products.forEach((product) => {
-        productsGrid.innerHTML += `
-            <article class="product-card">
-                <img src="${product.image}" alt="${product.name}" />
-                <h3>${product.name}</h3>
-                <p>${product.desc}</p>
-                <p>TZS ${product.price}</p>
-                <button onclick="addToCart('${product.name}', ${product.price})" class="btn btn-primary">Add to Cart</button>
-            </article>
-        `;
+        const card = document.createElement("article");
+        card.className = "product-card";
+
+        const image = document.createElement("img");
+        image.src = product.image;
+        image.alt = product.name;
+
+        const title = document.createElement("h3");
+        title.textContent = product.name;
+
+        const description = document.createElement("p");
+        description.textContent = product.desc;
+
+        const priceText = document.createElement("p");
+        priceText.textContent = `TZS ${product.price}`;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn btn-primary";
+        button.textContent = "Add to Cart";
+        button.addEventListener("click", () => addToCart(product.name, product.price));
+
+        card.appendChild(image);
+        card.appendChild(title);
+        card.appendChild(description);
+        card.appendChild(priceText);
+        card.appendChild(button);
+        productsGrid.appendChild(card);
     });
 }
 
@@ -349,10 +368,29 @@ function copyPaymentDetails() {
     const paymentDetails = document.getElementById("paymentDetails");
     if (!paymentDetails) return;
     const text = paymentDetails.innerText;
-    navigator.clipboard.writeText(text).then(() => {
-        const orderMessage = document.getElementById("orderMessage");
+    const orderMessage = document.getElementById("orderMessage");
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            if (orderMessage) orderMessage.innerText = "Maelezo ya malipo yamekopywa. Tuma kwa malipo au admin.";
+        }).catch(() => {
+            if (orderMessage) orderMessage.innerText = "Haiwezekani kunakili maelezo kwa sasa. Rudia tena au nakili mkono.";
+        });
+        return;
+    }
+
+    try {
+        const range = document.createRange();
+        range.selectNodeContents(paymentDetails);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand("copy");
+        selection.removeAllRanges();
         if (orderMessage) orderMessage.innerText = "Maelezo ya malipo yamekopywa. Tuma kwa malipo au admin.";
-    });
+    } catch (error) {
+        if (orderMessage) orderMessage.innerText = "Haiwezekani kunakili maelezo kwa sasa. Rudia tena au nakili mkono.";
+    }
 }
 
 function toggleMobileMenu() {
@@ -448,7 +486,7 @@ function togglePasswordVisibility() {
 
 function login(event) {
     if (event) event.preventDefault();
-    const password = document.getElementById("password")?.value || "";
+    const password = document.getElementById("password")?.value.trim() || "";
     const msg = document.getElementById("msg");
 
     if (password === adminPassword) {
