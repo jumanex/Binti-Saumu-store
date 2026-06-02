@@ -1,7 +1,7 @@
 ﻿const cartKey = "cart";
 const ordersKey = "orders";
 const adminPassword = "Saumu 1982";
-const adminPhones = ["0719988866", "0675846893", "0664491953"];
+const adminPhones = ["0743351313", "0681131621"];
 const productsKey = "products";
 const defaultProducts = [
     { name: "Sabuni ya mwani", price: 2500, image: "images/product1.jpg", desc: "Sabuni ya asili kwa ngozi nyororo." },
@@ -12,9 +12,9 @@ const defaultProducts = [
 ];
 
 const paymentMethods = [
-    { id: "mpesa", label: "M-Pesa (Mix by yas)", details: "Tuma pesa kwa namba 0675846893. Tumia jina lako kama marejeo." },
-    { id: "bank", label: "Bank Transfer", details: "Lipa kwa akaunti ya Bint Salum Store, NIDA Bank 123456789, Aina: Current." },
-    { id: "card", label: "Card / Credit", details: "Taarifa ya malipo ya kadi itatumwa kupitia simu au email baada ya kuthibitisha oda." }
+    { id: "mpesa", label: "M-Pesa / Airtel Money", details: "Tuma pesa kwa namba 0743351313 au 0681131621. Tumia jina lako kama marejeo. Lipa number 19168569. Hii ni lipa number." },
+    { id: "bank", label: "Bank Transfer", details: "Tuma pesa kwa namba 0743351313 au 0681131621. Lipa number 19168569. Hii ni lipa number." },
+    { id: "card", label: "Card / Credit", details: "Tuma pesa kwa namba 0743351313 au 0681131621. Lipa number 19168569. Hii ni lipa number." }
 ];
 
 function getCart() {
@@ -312,11 +312,13 @@ function loadPaymentConfirmation() {
     const order = getLastOrder();
     const orderDetails = document.getElementById("confirmationOrderDetails");
     const paymentDetails = document.getElementById("confirmationPaymentDetails");
+    const adminNotification = document.getElementById("confirmationAdminNotification");
     if (!orderDetails || !paymentDetails) return;
 
     if (!order) {
         orderDetails.innerHTML = '<p class="empty-state">Hakuna oda ya hivi karibuni. <a href="products.html">Rudi kwenye bidhaa</a>.</p>';
         paymentDetails.innerHTML = "";
+        if (adminNotification) adminNotification.innerHTML = "";
         return;
     }
 
@@ -342,6 +344,10 @@ function loadPaymentConfirmation() {
             <p>Tuma kwa njia uliyochagua na uhifadhi uthibitisho wa malipo.</p>
         </div>
     `;
+
+    if (adminNotification) {
+        displayAdminNotification(order, "confirmationAdminNotification");
+    }
 }
 
 function showPaymentSection(order) {
@@ -439,7 +445,6 @@ function placeOrder(event) {
     updateCartCount();
     displayCheckoutSummary();
     showPaymentSection(order);
-    displayAdminNotification(order);
 }
 
 function getAdminWhatsAppNumber() {
@@ -451,8 +456,8 @@ function formatAdminMessage(order) {
     return `Oda #${order.id}: ${order.name}, simu ${order.phone}, delivery ${order.delivery}, total TZS ${order.total}.`;
 }
 
-function displayAdminNotification(order) {
-    const adminNotification = document.getElementById("adminNotification");
+function displayAdminNotification(order, elementId = "adminNotification") {
+    const adminNotification = document.getElementById(elementId);
     if (!adminNotification) return;
 
     const whatsappNumber = getAdminWhatsAppNumber();
@@ -463,12 +468,13 @@ function displayAdminNotification(order) {
     adminNotification.innerHTML = `
         <div class="admin-notification-card">
             <h4>Mawasiliano kwa Mmiliki/Admin</h4>
-            <p>Wasiliana na mmiliki kwa namba hizi:</p>
+            <p>Wasiliana na mmiliki kwa namba hizi baada ya malipo:</p>
             <ul class="admin-contact-list">
                 ${adminPhones.map((phone) => `<li><strong>${phone}</strong></li>`).join("")}
             </ul>
             <div class="admin-notification-actions">
                 <a href="https://wa.me/${whatsappNumber}?text=${encoded}" target="_blank" rel="noreferrer" class="btn btn-primary">Tuma WhatsApp kwa Admin</a>
+                <a href="sms:${adminPhones[0]}?&body=${encoded}" class="btn btn-secondary">Tuma SMS kwa Admin</a>
                 <button type="button" class="btn btn-secondary" onclick="copyAdminNumber()">Nakili namba za Admin</button>
             </div>
             <p class="small-note">Ujumbe utakajazwa na maelezo ya oda yako ili mmiliki apate taarifa kwa haraka.</p>
