@@ -464,16 +464,41 @@ header {
     margin-top: 0;
 }
 
-.payment-details {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 18px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-}
+    .admin-notification {
+        margin-top: 1.5rem;
+    }
 
-.payment-details-card h4 {
-    margin-bottom: 0.75rem;
+    .admin-notification-card {
+        background: #eef6ff;
+        border: 1px solid rgba(37, 99, 235, 0.2);
+        border-radius: 20px;
+        padding: 1.25rem;
+        box-shadow: 0 15px 32px rgba(37, 99, 235, 0.08);
+    }
+
+    .admin-notification-card h4 {
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        color: #1d4ed8;
+    }
+
+    .admin-notification-card p {
+        margin: 0.5rem 0;
+        color: #334155;
+    }
+
+    .admin-notification-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 1rem 0;
+    }
+
+    .small-note {
+        margin-top: 0.5rem;
+        color: #475569;
+        font-size: 0.95rem;
+    }
 }
 
 .payment-details-card p {

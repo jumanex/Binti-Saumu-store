@@ -1,6 +1,7 @@
 ﻿const cartKey = "cart";
 const ordersKey = "orders";
 const adminPassword = "Saumu 1982";
+const adminPhone = "0675846893";
 const productsKey = "products";
 const defaultProducts = [
     { name: "Sabuni ya mwani", price: 2500, image: "images/product1.jpg", desc: "Sabuni ya asili kwa ngozi nyororo." },
@@ -438,6 +439,66 @@ function placeOrder(event) {
     updateCartCount();
     displayCheckoutSummary();
     showPaymentSection(order);
+    displayAdminNotification(order);
+}
+
+function getAdminWhatsAppNumber() {
+    return adminPhone.startsWith("0") ? `254${adminPhone.slice(1)}` : adminPhone;
+}
+
+function formatAdminMessage(order) {
+    return `Oda #${order.id}: ${order.name}, simu ${order.phone}, delivery ${order.delivery}, total TZS ${order.total}.`;
+}
+
+function displayAdminNotification(order) {
+    const adminNotification = document.getElementById("adminNotification");
+    if (!adminNotification) return;
+
+    const whatsappNumber = getAdminWhatsAppNumber();
+    const message = formatAdminMessage(order);
+    const encoded = encodeURIComponent(message);
+
+    adminNotification.classList.remove("hidden");
+    adminNotification.innerHTML = `
+        <div class="admin-notification-card">
+            <h4>Mawasiliano kwa Admin</h4>
+            <p>Arifa za oda zitumwe kwa namba ya admin:</p>
+            <p><strong>${adminPhone}</strong></p>
+            <div class="admin-notification-actions">
+                <a href="https://wa.me/${whatsappNumber}?text=${encoded}" target="_blank" rel="noreferrer" class="btn btn-primary">Tuma WhatsApp kwa Admin</a>
+                <button type="button" class="btn btn-secondary" onclick="copyAdminNumber()">Nakili namba ya Admin</button>
+            </div>
+            <p class="small-note">Ujumbe utakajazwa na maelezo ya oda yako ili admin apate taarifa kwa haraka.</p>
+        </div>
+    `;
+}
+
+function copyAdminNumber() {
+    const adminNotification = document.getElementById("adminNotification");
+    const orderMessage = document.getElementById("orderMessage");
+    if (!adminNotification) return;
+    const adminText = `Admin number: ${adminPhone}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(adminText).then(() => {
+            if (orderMessage) orderMessage.innerText = "Namba ya admin imekopywa. Tuma ujumbe sasa.";
+        }).catch(() => {
+            if (orderMessage) orderMessage.innerText = "Haiwezekani kunakili namba kwa sasa. Nakili kwa mkono.";
+        });
+        return;
+    }
+
+    try {
+        const textarea = document.createElement("textarea");
+        textarea.value = adminText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        if (orderMessage) orderMessage.innerText = "Namba ya admin imekopywa. Tuma ujumbe sasa.";
+    } catch (error) {
+        if (orderMessage) orderMessage.innerText = "Haiwezekani kunakili namba kwa sasa. Nakili kwa mkono.";
+    }
 }
 
 function loadOrders() {
