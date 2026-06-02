@@ -1,7 +1,7 @@
 ﻿const cartKey = "cart";
 const ordersKey = "orders";
 const adminPassword = "Saumu 1982";
-const adminPhone = "0675846893";
+const adminPhones = ["0719988866", "0675846893", "0664491953"];
 const productsKey = "products";
 const defaultProducts = [
     { name: "Sabuni ya mwani", price: 2500, image: "images/product1.jpg", desc: "Sabuni ya asili kwa ngozi nyororo." },
@@ -443,7 +443,8 @@ function placeOrder(event) {
 }
 
 function getAdminWhatsAppNumber() {
-    return adminPhone.startsWith("0") ? `254${adminPhone.slice(1)}` : adminPhone;
+    const primary = adminPhones[0] || "";
+    return primary.startsWith("0") ? `254${primary.slice(1)}` : primary;
 }
 
 function formatAdminMessage(order) {
@@ -461,14 +462,16 @@ function displayAdminNotification(order) {
     adminNotification.classList.remove("hidden");
     adminNotification.innerHTML = `
         <div class="admin-notification-card">
-            <h4>Mawasiliano kwa Admin</h4>
-            <p>Arifa za oda zitumwe kwa namba ya admin:</p>
-            <p><strong>${adminPhone}</strong></p>
+            <h4>Mawasiliano kwa Mmiliki/Admin</h4>
+            <p>Wasiliana na mmiliki kwa namba hizi:</p>
+            <ul class="admin-contact-list">
+                ${adminPhones.map((phone) => `<li><strong>${phone}</strong></li>`).join("")}
+            </ul>
             <div class="admin-notification-actions">
                 <a href="https://wa.me/${whatsappNumber}?text=${encoded}" target="_blank" rel="noreferrer" class="btn btn-primary">Tuma WhatsApp kwa Admin</a>
-                <button type="button" class="btn btn-secondary" onclick="copyAdminNumber()">Nakili namba ya Admin</button>
+                <button type="button" class="btn btn-secondary" onclick="copyAdminNumber()">Nakili namba za Admin</button>
             </div>
-            <p class="small-note">Ujumbe utakajazwa na maelezo ya oda yako ili admin apate taarifa kwa haraka.</p>
+            <p class="small-note">Ujumbe utakajazwa na maelezo ya oda yako ili mmiliki apate taarifa kwa haraka.</p>
         </div>
     `;
 }
@@ -477,11 +480,11 @@ function copyAdminNumber() {
     const adminNotification = document.getElementById("adminNotification");
     const orderMessage = document.getElementById("orderMessage");
     if (!adminNotification) return;
-    const adminText = `Admin number: ${adminPhone}`;
+    const adminText = `Namba za admin: ${adminPhones.join(", ")}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(adminText).then(() => {
-            if (orderMessage) orderMessage.innerText = "Namba ya admin imekopywa. Tuma ujumbe sasa.";
+            if (orderMessage) orderMessage.innerText = "Namba za admin zimekopywa. Tuma ujumbe sasa.";
         }).catch(() => {
             if (orderMessage) orderMessage.innerText = "Haiwezekani kunakili namba kwa sasa. Nakili kwa mkono.";
         });
