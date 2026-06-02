@@ -62,13 +62,37 @@ header {
     backdrop-filter: blur(8px);
 }
 
-.brand a {
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: inherit;
+}
+
+.brand-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 0.35rem;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.brand-copy strong {
+    display: block;
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary);
 }
 
-.brand p {
+.brand-copy p {
     margin-top: 0.25rem;
     color: #475569;
     font-size: 0.95rem;
