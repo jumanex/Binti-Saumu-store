@@ -96,15 +96,35 @@ function renderAdminProducts() {
     }
 
     products.forEach((product, index) => {
-        productList.innerHTML += `
-            <div class="product-list-item">
-                <strong>${product.name}</strong>
-                <p>${product.desc}</p>
-                <p>Bei: TZS ${product.price}</p>
-                <p>Image: ${product.image}</p>
-                <button type="button" class="btn btn-secondary" onclick="deleteProduct(${index})">Futa</button>
-            </div>
+        const productItem = document.createElement("div");
+        productItem.className = "product-list-item";
+        
+        const thumb = document.createElement("img");
+        thumb.className = "admin-thumb";
+        thumb.src = product.image;
+        thumb.alt = product.name;
+        
+        const body = document.createElement("div");
+        body.className = "product-list-body";
+        body.innerHTML = `
+            <strong>${product.name}</strong>
+            <p>${product.desc || "Hakuna maelezo"}</p>
+            <p>Bei: TZS ${product.price}</p>
         `;
+        
+        const actions = document.createElement("div");
+        actions.className = "product-list-actions";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "btn btn-secondary";
+        deleteBtn.textContent = "Futa";
+        deleteBtn.onclick = () => deleteProduct(index);
+        actions.appendChild(deleteBtn);
+        
+        productItem.appendChild(thumb);
+        productItem.appendChild(body);
+        productItem.appendChild(actions);
+        productList.appendChild(productItem);
     });
 }
 
